@@ -1,30 +1,22 @@
 var gulp = require('gulp');
-var connect = require('gulp-connect');
-var psiNgrok = require('psi-ngrok');
-var port = 8080;
+var uglify = require('gulp-uglify');
+var pump = require('pump');
+var htmlmin = require('gulp-htmlmin');
 
-var connectServer = function() {
-  return connect.server({
-    root: 'public',
-    port: port
-  });
-};
-
-function handleError(err) {
-  console.log(err.toString());
-  process.exit(-1);
-}
-
-gulp.task('pagespeed', function () {
-  psiNgrok({
-    pages: ['index.html'],
-    port: port,
-    onBeforeConnect: connectServer,
-    onError: handleError,
-    options: {
-      threshold: 80
-    }
-  });
+gulp.task('compress', function (cb) {
+  pump([
+    gulp.src('js/*.js'),
+    uglify(),
+    gulp.dest('build')
+  ],
+    cb
+  );
 });
 
-gulp.task('default', ['pagespeed']);
+gulp.task('htmlminify', function() {
+  return gulp.src('src/index.html')
+    .pipe(htmlmin({collapseWhitespace: true, minifyCSS: true, minifyJS: true}))
+    .pipe(gulp.dest('.'));
+});
+
+gulp.task('minify', ['compress', 'htmlminify']);

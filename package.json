@@ -8,10 +8,15 @@
     "gulp-connect": "^5.0.0",
     "psi-ngrok": "^0.1.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-imagemin": "^3.2.0",
+    "gulp-uglify": "^2.1.2",
+    "pump": "^1.0.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "gulp": "gulp"
+    "minify": "gulp minify"
   },
   "repository": {
     "type": "git",
